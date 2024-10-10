@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>投票结果管理</title>
+</head>
+<body>
+    <h1>投票结果</h1>
+    <button id="resetButton">清空数据</button>
+    <div id="results"></div>
+    <script>
+        function loadResults() {
+            fetch('https://<your-backend-service-url>/results')  // 替换为您的后端服务URL
+                .then(response => response.json())
+                .then(data => {
+                    const { mvp, potential } = data;
+                    const resultsDiv = document.getElementById('results');
+                    resultsDiv.innerHTML = `
+                        <h2>最有价值选手</h2>
+                        <ul>${mvp.map(([name, votes]) => `<li>${name}: ${votes}票</li>`).join('')}</ul>
+                        <h2>最具潜力选手</h2>
+                        <ul>${potential.map(([name, votes]) => `<li>${name}: ${votes}票</li>`).join('')}</ul>
+                    `;
+                });
+        }
+
+        document.getElementById('resetButton').addEventListener('click', function() {
+            fetch('https://<your-backend-service-url>/reset', { method: 'POST' })  // 替换为您的后端服务URL
+                .then(() => {
+                    alert('数据已清空');
+                    loadResults();
+                })
+                .catch(err => console.error(err));
+        });
+
+        loadResults();
+    </script>
+</body>
+</html>

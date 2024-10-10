@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>匿名投票</title>
+</head>
+<body>
+    <h1>匿名投票</h1>
+    <form id="voteForm">
+        <h2>问题一：最有价值选手</h2>
+        <div>
+            <input type="checkbox" name="mvp" value="樊鹏">樊鹏<br>
+            <input type="checkbox" name="mvp" value="毕智凝">毕智凝<br>
+            <input type="checkbox" name="mvp" value="董楠">董楠<br>
+            <input type="checkbox" name="mvp" value="陶航琦">陶航琦<br>
+            <input type="checkbox" name="mvp" value="张智">张智<br>
+            <input type="checkbox" name="mvp" value="蔡梦瑶">蔡梦瑶<br>
+            <input type="checkbox" name="mvp" value="曾建程">曾建程<br>
+            <input type="checkbox" name="mvp" value="崔嫄野">崔嫄野<br>
+            <input type="checkbox" name="mvp" value="孙羽璠">孙羽璠<br>
+            <input type="checkbox" name="mvp" value="张诗蕴">张诗蕴<br>
+            <input type="checkbox" name="mvp" value="朱子清">朱子清<br>
+            <input type="checkbox" name="mvp" value="刘书豪">刘书豪<br>
+            <input type="checkbox" name="mvp" value="司芮嘉">司芮嘉<br>
+            <input type="checkbox" name="mvp" value="王茹">王茹<br>
+            <input type="checkbox" name="mvp" value="吴茂林">吴茂林<br>
+            <input type="checkbox" name="mvp" value="林逸宸">林逸宸<br>
+        </div>
+        <h2>问题二：最具潜力选手</h2>
+        <div>
+            <input type="checkbox" name="potential" value="樊鹏">樊鹏<br>
+            <input type="checkbox" name="potential" value="毕智凝">毕智凝<br>
+            <input type="checkbox" name="potential" value="董楠">董楠<br>
+            <input type="checkbox" name="potential" value="陶航琦">陶航琦<br>
+            <input type="checkbox" name="potential" value="张智">张智<br>
+            <input type="checkbox" name="potential" value="蔡梦瑶">蔡梦瑶<br>
+            <input type="checkbox" name="potential" value="曾建程">曾建程<br>
+            <input type="checkbox" name="potential" value="崔嫄野">崔嫄野<br>
+            <input type="checkbox" name="potential" value="孙羽璠">孙羽璠<br>
+            <input type="checkbox" name="potential" value="张诗蕴">张诗蕴<br>
+            <input type="checkbox" name="potential" value="朱子清">朱子清<br>
+            <input type="checkbox" name="potential" value="刘书豪">刘书豪<br>
+            <input type="checkbox" name="potential" value="司芮嘉">司芮嘉<br>
+            <input type="checkbox" name="potential" value="王茹">王茹<br>
+            <input type="checkbox" name="potential" value="吴茂林">吴茂林<br>
+            <input type="checkbox" name="potential" value="林逸宸">林逸宸<br>
+        </div>
+        <button type="submit">提交投票</button>
+    </form>
+    <script>
+        document.getElementById('voteForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            let mvp = Array.from(document.querySelectorAll('input[name="mvp"]:checked')).map(cb => cb.value);
+            let potential = Array.from(document.querySelectorAll('input[name="potential"]:checked')).map(cb => cb.value);
+            if (mvp.length !== 2 || potential.length !== 2) {
+                alert('每个问题都必须选择2个选项。');
+                return;
+            }
+            fetch('https://<your-backend-service-url>/vote', {  // 替换为您的后端服务URL
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ mvp, potential })
+            }).then(() => alert('投票成功！')).catch(err => console.error(err));
+        });
+    </script>
+</body>
+</html>
